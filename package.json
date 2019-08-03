@@ -1,0 +1,28 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "slack clone with Graqphql and react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec babel-node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EfeAgare/slack-clone-server.git"
+  },
+  "author": "Efe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EfeAgare/slack-clone-server/issues"
+  },
+  "homepage": "https://github.com/EfeAgare/slack-clone-server#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-stage-3": "^7.0.0",
+    "nodemon": "^1.19.1"
+  }
+}
