@@ -1,2 +1,2 @@
 # slack-clone-server
-Slack clone using GraphQL and React. 
+Slack clone using Sequelize, GraphQL and React. 
