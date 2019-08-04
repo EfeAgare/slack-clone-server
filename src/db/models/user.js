@@ -15,6 +15,11 @@ export default (sequelize, DataTypes) => {
     });
 
     User.hasMany(models.Message);
+
+    User.belongsToMany(models.Channel, {
+      through: 'ChannelMembers',
+      foreignkey: 'userId'
+    });
     // associations can be defined here
   };
   return User;
