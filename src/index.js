@@ -3,6 +3,9 @@ import bodyParser from 'body-parser';
 import { ApolloServer, gql } from 'apollo-server-express';
 import dotenv from 'dotenv'
 
+import typeDefs from './graphql/typeDef';
+import resolvers from './graphql/resolvers';
+
 dotenv.config()
 
 const app = express();
@@ -10,21 +13,6 @@ const app = express();
 const PORT = 8000;
 
 
-// rootQuery
-const typeDefs = gql`
-  type Query {
-    hi: String
-  }
-  
-`;
-
-// To return something, We need A resolver function
-
-const resolvers = {
-  Query: {
-    hi: () => 'Working for me'
-  }
-};
 
 /// body can only be string or arrays
 app.use(
