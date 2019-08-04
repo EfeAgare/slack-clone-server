@@ -8,5 +8,15 @@ export default gql`
     channel: [Channel!]!
     createdAt: String!
     updatedAt: String!
+  } 
+
+  extend type Query {
+    getUser(id: Int!): User!
+    allUsers: [User!]!
+  }
+
+  extend type Mutation {
+    createUser(username: String!, email:String!, password: String!): User!
   }
 `;
+ 
