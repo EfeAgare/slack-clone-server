@@ -2,7 +2,14 @@ export default (sequelize, DataTypes) => {
   const Team = sequelize.define(
     'Team',
     {
-      name: { type: DataTypes.STRING, unique: true }
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      owner: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      }
     },
     {}
   );

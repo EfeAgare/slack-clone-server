@@ -1,10 +1,15 @@
-'use strict';
 export default (sequelize, DataTypes) => {
   const ChannelMember = sequelize.define(
     'ChannelMember',
     {
-      userId: DataTypes.INTEGER,
-      channelId: DataTypes.INTEGER
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      channelId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      }
     },
     {}
   );

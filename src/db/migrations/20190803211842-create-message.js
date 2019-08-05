@@ -8,10 +8,12 @@ export default {
         type: Sequelize.INTEGER
       },
       text: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {         // User hasMany messages
           model: 'Users',
           key: 'id'
@@ -19,6 +21,7 @@ export default {
       },
       channelId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {         
           model: 'Channels',   // Channels hasMany messages
           key: 'id'

@@ -2,13 +2,22 @@ export default (sequelize, DataTypes) => {
   const Message = sequelize.define(
     'Message',
     {
-      text: DataTypes.TEXT,
-      userId: DataTypes.INTEGER,
-      channel: DataTypes.INTEGER
+      text: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      channelId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      }
     },
     {}
   );
-  Message.associate = (models)=> {
+  Message.associate = models => {
     Message.belongsTo(models.User, {
       foreignkey: 'userId'
     });

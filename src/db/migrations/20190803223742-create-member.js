@@ -1,5 +1,4 @@
-'use strict';
-module.exports = {
+export default {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Members', {
       id: {
@@ -10,6 +9,7 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           // User hasMany Teams n:n
           model: 'Users',
@@ -18,6 +18,7 @@ module.exports = {
       },
       teamId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           // Team hasMany User n:n
           model: 'Teams',

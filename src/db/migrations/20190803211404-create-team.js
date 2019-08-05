@@ -8,10 +8,12 @@ export default {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       owner: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {         // belongs to User
           model: 'Users',
           key: 'id'

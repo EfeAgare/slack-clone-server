@@ -8,12 +8,15 @@ export default {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       teamId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       public: {
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       createdAt: {
