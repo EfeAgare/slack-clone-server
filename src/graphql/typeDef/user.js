@@ -15,8 +15,14 @@ export default gql`
     allUsers: [User!]!
   }
 
+  type RegisterResponse{
+    ok: Boolean!
+    user: User
+    errors: [Error!]
+  }
+
   extend type Mutation {
-    register(username: String!, email:String!, password: String!): User!
+    register(username: String!, email:String!, password: String!): RegisterResponse!
   }
 `;
  
