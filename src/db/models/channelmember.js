@@ -3,11 +3,11 @@ export default (sequelize, DataTypes) => {
     'ChannelMember',
     {
       userId: {
-        type: Sequelize.INTEGER,
+        type:  DataTypes.INTEGER,
         allowNull: false
       },
       channelId: {
-        type: Sequelize.INTEGER,
+        type:  DataTypes.INTEGER,
         allowNull: false
       }
     },

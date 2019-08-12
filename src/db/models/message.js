@@ -3,15 +3,15 @@ export default (sequelize, DataTypes) => {
     'Message',
     {
       text: {
-        type: Sequelize.TEXT,
+        type:  DataTypes.TEXT,
         allowNull: false
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type:  DataTypes.INTEGER,
         allowNull: false
       },
       channelId: {
-        type: Sequelize.INTEGER,
+        type:  DataTypes.INTEGER,
         allowNull: false
       }
     },

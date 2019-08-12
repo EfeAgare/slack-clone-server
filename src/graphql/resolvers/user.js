@@ -1,21 +1,20 @@
-import models from '../../db/models';
-
-const { User } = models;
+import bcrypt from 'bcryptjs';
 
 export default {
   Query: {
     getUser: (root, args, context, info) => {
-      return User.findByPk(args.id);
+      return context.models.User.findByPk(args.id);
     },
 
     allUsers: (root, args, context, info) => {
-      return User.findAll({});
+      return context.models.User.findAll({});
     }
   },
 
   Mutation: {
-    createUser: async (root, args, context, info) => {
-      const user = await User.create(args);
+    register: async (root, args, context, info) => {
+      const hashPassword = await bcrypt.hashSync(args.password, 10);
+      const user = await context.models.User.create({...args, password: hashPassword});
       return user;
     }
   }

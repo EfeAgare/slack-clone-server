@@ -4,15 +4,15 @@ export default (sequelize, DataTypes) => {
     {
       username: {
         allowNull: false,
-        type: Sequelize.STRING
+        type:  DataTypes.STRING
       },
       email: {
         allowNull: false,
-        type: Sequelize.STRING
+        type:  DataTypes.STRING
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING
+        type:  DataTypes.STRING
       }
     },
     {}

@@ -3,11 +3,11 @@ export default (sequelize, DataTypes) => {
     'Member',
     {
       userId: {
-        type: Sequelize.INTEGER,
+        type:  DataTypes.INTEGER,
         allowNull: false
       },
       teamId: {
-        type: Sequelize.INTEGER,
+        type:  DataTypes.INTEGER,
         allowNull: false
       }
     },

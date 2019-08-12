@@ -3,11 +3,11 @@ export default (sequelize, DataTypes) => {
     'Team',
     {
       name: {
-        type: Sequelize.STRING,
+        type:  DataTypes.STRING,
         allowNull: false
       },
       owner: {
-        type: Sequelize.INTEGER,
+        type:  DataTypes.INTEGER,
         allowNull: false
       }
     },

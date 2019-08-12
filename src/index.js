@@ -6,6 +6,9 @@ import dotenv from 'dotenv'
 import typeDefs from './graphql/typeDef';
 import resolvers from './graphql/resolvers';
 
+import models from './db/models';
+
+
 dotenv.config()
 
 const app = express();
@@ -27,7 +30,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   playground: true,
-  context: ({ req, res }) => ({ req, res })
+  context: ({ req, res }) => ({ req, res, models })
 });
 
 server.applyMiddleware({ app });

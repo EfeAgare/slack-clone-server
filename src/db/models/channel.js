@@ -3,16 +3,16 @@ export default (sequelize, DataTypes) => {
     'Channel',
     {
       name: {
-        type: Sequelize.STRING,
+        type:  DataTypes.STRING,
         allowNull: false
       },
       teamId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type:  DataTypes.INTEGER
       },
       public: {
         defaultValue: false,
-        type: Sequelize.BOOLEAN
+        type:  DataTypes.BOOLEAN
       }
     },
     {}
