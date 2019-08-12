@@ -15,6 +15,8 @@ const app = express();
 
 const PORT = 8000;
 
+const secret = process.env.SECRET
+
 
 
 /// body can only be string or arrays
@@ -30,7 +32,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   playground: true,
-  context: ({ req, res }) => ({ req, res, models })
+  context: ({ req, res }) => ({ req, res, models, secret })
 });
 
 server.applyMiddleware({ app });

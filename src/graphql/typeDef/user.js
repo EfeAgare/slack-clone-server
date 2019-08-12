@@ -8,30 +8,32 @@ export default gql`
     channel: [Channel!]!
     createdAt: String!
     updatedAt: String!
-  } 
+  }
 
   extend type Query {
     getUser(id: Int!): User!
     allUsers: [User!]!
   }
 
-  type RegisterResponse{
+  type RegisterResponse {
     ok: Boolean!
     user: User
     errors: [Error!]
   }
 
-
-  type LoginResponse{
+  type LoginResponse {
     ok: Boolean!
     token: String
-    user: User
+    refreshToken: String
     errors: [Error!]
   }
 
   extend type Mutation {
-    register(username: String!, email:String!, password: String!): RegisterResponse!
-    login(email:String!, password: String!): RegisterResponse!
+    register(
+      username: String!
+      email: String!
+      password: String!
+    ): RegisterResponse!
+    login(email: String!, password: String!): LoginResponse!
   }
 `;
- 

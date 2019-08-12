@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { tryLogin } from '../../utils/auth';
 
 const formatErrors = (e, models) => {
   console.log(models.Sequelize.ValidationError);
@@ -31,6 +32,15 @@ export default {
           errors: formatErrors(error, models)
         };
       }
+    },
+    login: async (
+      root,
+      { email, password },
+      { req, res, models, secret },
+      info
+    ) => {
+      return await tryLogin(email, password, models, secret)
+      ;
     }
   }
 };
