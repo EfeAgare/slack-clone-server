@@ -1,14 +1,5 @@
-import _ from 'lodash';
 import { tryLogin } from '../../utils/auth';
-
-const formatErrors = (e, models) => {
-  console.log(models.Sequelize.ValidationError);
-  // console.log(e)
-  if (e instanceof models.Sequelize.ValidationError) {
-    return e.errors.map(x => _.pick(x, ['path', 'message']));
-  }
-  return [{ path: 'name', message: 'something went wrong' }];
-};
+import { formatErrors } from '../../utils/formatError';
 
 export default {
   Query: {

@@ -9,4 +9,12 @@ export default gql`
     createdAt: String!
     updatedAt: String!
   }
+
+  type CreateTeamResponse {
+    ok: Boolean!
+    errors: [Error!]
+  }
+  extend type Mutation {
+    createTeam(name: String!): CreateTeamResponse!
+  }
 `;
