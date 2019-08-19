@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    image: slack-clone-server
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; npm run migrate; npm run dev'
+    volumes:
+      - .:/slack-clone-server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL_DEV: $DATABASE_URL_DEV
+    networks:
+      - default
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: slack_database_development
+    ports:
+    - "5434:5432"
+
+networks:
+  default:
+    external:
+      name: slack-clone-client-real_some-net
+
