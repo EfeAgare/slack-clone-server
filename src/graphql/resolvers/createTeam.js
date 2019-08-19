@@ -12,7 +12,7 @@ export default {
         // console.log(team)
         return { ok: true, team };
       } catch (error) {
-        // console.log(error)
+        
         return {
           ok: false,
           errors: formatErrors(error, models)

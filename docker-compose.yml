@@ -2,7 +2,14 @@ version: '3'
 services:
   web:
     image: slack-clone-server
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; npm run migrate; npm run dev'
+    # while !</dev/tcp/db/5432
+    # do sleep 1
+    # done
+    #  npm run migrate
+    # npm run dev
+
+    #  This will successfully wait for Postgres to start.
+    command: bash -c 'while !< /dev/tcp/db/5432; do sleep 1; done; npm run migrate; npm run dev'
     volumes:
       - .:/slack-clone-server
     ports:
