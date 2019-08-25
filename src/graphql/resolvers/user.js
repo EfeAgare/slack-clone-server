@@ -13,9 +13,10 @@ export default {
   },
 
   Mutation: {
-    register: async (root, args, { req, res, models }, info) => {
+    register: async (root, args, { req, res, models, secret }, info) => {
       try {
         const user = await models.User.create(args);
+         await tryLogin(args.email, args.password, models, secret);
         return { ok: true, user };
       } catch (error) {
         return {
@@ -30,8 +31,7 @@ export default {
       { req, res, models, secret },
       info
     ) => {
-      return await tryLogin(email, password, models, secret)
-      ;
+      return await tryLogin(email, password, models, secret);
     }
   }
 };

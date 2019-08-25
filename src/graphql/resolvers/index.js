@@ -1,4 +1,4 @@
 import user from './user';
-import team from './createTeam'
+import team from './team'
 
 export default [user, team];
