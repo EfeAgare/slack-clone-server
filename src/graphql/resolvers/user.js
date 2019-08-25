@@ -16,8 +16,13 @@ export default {
     register: async (root, args, { req, res, models, secret }, info) => {
       try {
         const user = await models.User.create(args);
-         await tryLogin(args.email, args.password, models, secret);
-        return { ok: true, user };
+        const { token, refreshToken } = await tryLogin(
+          args.email,
+          args.password,
+          models,
+          secret
+        );
+        return { ok: true, user, token, refreshToken };
       } catch (error) {
         return {
           ok: false,

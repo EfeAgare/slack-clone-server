@@ -18,6 +18,8 @@ export default gql`
   type RegisterResponse {
     ok: Boolean!
     user: User
+    token: String
+    refreshToken: String
     errors: [Error!]
   }
 

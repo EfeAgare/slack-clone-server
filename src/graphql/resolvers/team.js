@@ -3,13 +3,18 @@ import { requiresAuth } from '../../utils/permissions';
 
 export default {
   Query: {
-    allTeams: requiresAuth.createResolver(
+    allTeams: 
       async (root, args, { models, user }, info) => {
         try {
+          console.log(models.Team.findAll(
+            { where: { ownerId: 1 } },
+            { raw: true }
+          ))
           const team = await models.Team.findAll(
-            { owner: user.id },
+            { where: { ownerId: 1 } },
             { raw: true }
           );
+        
           return { ok: true, team };
         } catch (error) {
           return {
@@ -18,7 +23,7 @@ export default {
           };
         }
       }
-    )
+    
   },
 
   Mutation: {
@@ -37,5 +42,9 @@ export default {
         }
       }
     )
+  },
+  Team: {
+    channels: ({ id }, args, { models }) =>
+      models.Channel.findAll({ teamId: id })
   }
 };

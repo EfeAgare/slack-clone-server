@@ -6,6 +6,7 @@ export default gql`
     name: String!
     owner: String!
     member: [Member!]!
+    channels: [Channel!]!
     createdAt: String!
     updatedAt: String!
   }
