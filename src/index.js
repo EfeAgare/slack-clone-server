@@ -36,7 +36,6 @@ const server = new ApolloServer({
   resolvers,
   playground: true,
   context: async ({ req, res }) => {
-    console.log(req.headers)
     const token = req.headers['x-token'] || '';
     const refreshToken = req.headers['x-refresh-token'] || '';
     const user = await getUser(token, refreshToken, secret, models, res);
