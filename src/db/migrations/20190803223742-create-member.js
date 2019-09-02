@@ -10,6 +10,7 @@ export default {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
           // User hasMany Teams n:n
           model: 'Users',
@@ -19,6 +20,7 @@ export default {
       teamId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
           // Team hasMany User n:n
           model: 'Teams',

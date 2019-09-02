@@ -7,8 +7,10 @@ export default {
       return models.User.findByPk(args.id);
     },
 
-    allUsers: (root, args, { req, res, models }, info) => {
+    allUsers: async (root, args, { req, res, models }, info) => {
+
       return models.User.findAll({});
+      
     }
   },
 

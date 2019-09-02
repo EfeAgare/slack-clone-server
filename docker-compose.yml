@@ -35,5 +35,4 @@ services:
 networks:
   default:
     external:
-      name: slack-clone-client-real_some-net
-
+      name: slack-clone-client-real_default

@@ -11,12 +11,14 @@ export default {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      owner: {
+      ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {         // belongs to User
-          model: 'Users',
-          key: 'id'
+        onDelete: 'CASCADE',
+        references: {       // User hasMany messages
+            model: 'Users',
+            key: 'id',
+            as: 'owner'
         }
       },
       createdAt: {

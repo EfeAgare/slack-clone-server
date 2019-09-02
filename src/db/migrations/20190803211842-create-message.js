@@ -14,6 +14,7 @@ export default {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {         // User hasMany messages
           model: 'Users',
           key: 'id'
@@ -22,6 +23,7 @@ export default {
       channelId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {         
           model: 'Channels',   // Channels hasMany messages
           key: 'id'

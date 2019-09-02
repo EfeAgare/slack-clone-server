@@ -4,7 +4,7 @@ export default gql`
   type Team {
     id: Int!
     name: String!
-    owner: String!
+    ownerId: String!
     member: [Member!]!
     channels: [Channel!]!
     createdAt: String!

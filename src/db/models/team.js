@@ -3,24 +3,26 @@ export default (sequelize, DataTypes) => {
     'Team',
     {
       name: {
-        type:  DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false
       },
-      owner: {
-        type:  DataTypes.INTEGER,
-        allowNull: false
+      ownerId: {
+        type: DataTypes.INTEGER
       }
     },
     {}
   );
   Team.associate = models => {
     Team.belongsToMany(models.User, {
-      through: 'member',
-      foreignkey: 'teamId '
+      through: 'Members',
+      foreignkey: 'teamId'
     });
 
+    // Team.hasMany(models.Channel, { foreignkey: 'workSpaceId', as: 'workSpace' });
+
     Team.belongsTo(models.User, {
-      foreignkey: 'owner'
+      foreignkey: 'ownerId',
+      as: 'owner'
     });
     // associations can be defined here
   };

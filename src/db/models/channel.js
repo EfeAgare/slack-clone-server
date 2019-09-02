@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
         type:  DataTypes.STRING,
         allowNull: false
       },
-      teamId: {
+      workSpaceId: {
         allowNull: false,
         type:  DataTypes.INTEGER
       },
@@ -20,9 +20,10 @@ export default (sequelize, DataTypes) => {
   Channel.associate = models => {
     // associations can be defined here
 
-    Channel.belongsTo(models.Team, {
-      foreignkey: 'teamId'
-    });
+    // Channel.belongsTo(models.Team, {
+    //   foreignKey: 'workSpaceId',
+    //   as: "workSpace"
+    // });
 
     Channel.belongsToMany(models.User, {
       through: 'ChannelMembers',

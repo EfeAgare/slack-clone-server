@@ -11,9 +11,15 @@ export default {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      teamId: {
+      workSpaceId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {         // Team hasMany channels
+          model: 'Teams',
+          key: 'id',
+          as:"workSpace"
+        }
       },
       public: {
         defaultValue: false,

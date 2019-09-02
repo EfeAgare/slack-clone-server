@@ -10,6 +10,7 @@ export default {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {         // Users hasMany Channels n:n
           model: 'Users',
           key: 'id'
@@ -18,6 +19,7 @@ export default {
       channelId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {         // Channels hasMany Users n:n
           model: 'Channels',
           key: 'id'
