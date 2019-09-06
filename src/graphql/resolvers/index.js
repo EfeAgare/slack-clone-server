@@ -1,4 +1,4 @@
 import user from './user';
-import team from './team'
+import workSpace from './workSpace'
 
-export default [user, team];
+export default [user, workSpace];

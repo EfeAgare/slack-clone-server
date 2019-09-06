@@ -18,13 +18,13 @@ export default (sequelize, DataTypes) => {
     {}
   );
   Message.associate = models => {
-    Message.belongsTo(models.User, {
-      foreignkey: 'userId'
-    });
+    // Message.belongsTo(models.User, {
+    //   foreignkey: 'userId'
+    // });
 
-    Message.belongsTo(models.Channel, {
-      foreignkey: 'channelId'
-    });
+    // Message.belongsTo(models.Channel, {
+    //   foreignkey: 'channelId'
+    // });
     // associations can be defined here
   };
   return Message;

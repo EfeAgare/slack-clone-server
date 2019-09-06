@@ -15,10 +15,9 @@ export default {
         allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
-        references: {         // Team hasMany channels
-          model: 'Teams',
-          key: 'id',
-          as:"workSpace"
+        references: {         // WorkSpaces hasMany channels
+          model: 'WorkSpaces',
+          key: 'id'
         }
       },
       public: {

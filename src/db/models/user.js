@@ -50,22 +50,22 @@ export default (sequelize, DataTypes) => {
     }
   );
   User.associate = models => {
-    User.belongsToMany(models.Team, {
-      through: 'Members',
-      foreignkey: 'userId'
-    });
+    // User.belongsToMany(models.WorkSpace, {
+    //   through: 'WorkSpaceMembers',
+    //   foreignkey: 'workSpaceId'
+    // });
 
-    User.hasMany(models.Message, { foreignkey: 'userId' });
+    // User.hasMany(models.WorkSpace, {
+    //   foreignkey: 'ownerId'
+    // });
 
-    User.hasMany(models.Team, {
-      foreignKey: 'ownerId',
-      as: 'owner'
-    });
+    // User.hasMany(models.Message, { foreignkey: 'userId' });
 
-    User.belongsToMany(models.Channel, {
-      through: 'ChannelMembers',
-      foreignkey: 'userId'
-    });
+    // User.belongsToMany(models.Channel, {
+    //   through: 'ChannelMember',
+    //   // foreignkey: 'userId'
+    // });
+
     // associations can be defined here
   };
   return User;

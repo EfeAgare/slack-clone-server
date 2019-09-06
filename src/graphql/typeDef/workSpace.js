@@ -1,25 +1,25 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-  type Team {
+  type WorkSpace {
     id: Int!
     name: String!
-    ownerId: String!
+    userId: String!
     member: [Member!]!
     channels: [Channel!]!
     createdAt: String!
     updatedAt: String!
   }
 
-  type CreateTeamResponse {
+  type CreateWorkSpaceResponse {
     ok: Boolean!
     errors: [Error!]
   }
 
   extend type Query {
-    allTeams: [Team!]!
+    allWorkSpace: [WorkSpace!]!
   }
   extend type Mutation {
-    createTeam(name: String!): CreateTeamResponse!
+    createWorkSpace(name: String!): CreateWorkSpaceResponse!
   }
 `;

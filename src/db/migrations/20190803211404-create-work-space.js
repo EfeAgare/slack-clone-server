@@ -1,30 +1,23 @@
 export default {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Members', {
+    return queryInterface.createTable('WorkSpaces', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: 'CASCADE',
-        references: {
-          // User hasMany Teams n:n
-          model: 'Users',
-          key: 'id'
-        }
-      },
-      teamId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          // Team hasMany User n:n
-          model: 'Teams',
-          key: 'id'
+        references: {       // User hasMany messages
+            model: 'Users',
+            key: 'id'
         }
       },
       createdAt: {
@@ -37,5 +30,6 @@ export default {
       }
     });
   },
-  down: queryInterface => queryInterface.dropTable('Members')
+  down: queryInterface => queryInterface.dropTable('WorkSpaces')
+  
 };

@@ -5,7 +5,7 @@ export default gql`
     id: Int!
     name: String!
     public: Boolean!
-    team: [Team!]!
+    workSpace: [WorkSpace!]!
     createdAt: String!
     updatedAt: String!
   }

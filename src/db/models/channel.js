@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         type:  DataTypes.INTEGER
       },
+ 
       public: {
         defaultValue: false,
         type:  DataTypes.BOOLEAN
@@ -20,15 +21,19 @@ export default (sequelize, DataTypes) => {
   Channel.associate = models => {
     // associations can be defined here
 
-    // Channel.belongsTo(models.Team, {
+    // Channel.belongsTo(models.WorkSpace, {
     //   foreignKey: 'workSpaceId',
-    //   as: "workSpace"
     // });
 
-    Channel.belongsToMany(models.User, {
-      through: 'ChannelMembers',
-      foreignkey: 'channelId'
-    });
+    // Channel.hasMany(models.Message, {
+    //   foreignKey: 'channelId',
+    // });
+
+
+    // Channel.belongsToMany(models.User, {
+    //   through: 'ChannelMember',
+    //   foreignkey: 'channelId'
+    // });
   };
   return Channel;
 };
