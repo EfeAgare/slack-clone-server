@@ -13,6 +13,7 @@ export default gql`
 
   type CreateWorkSpaceResponse {
     ok: Boolean!
+    workSpace: WorkSpace!
     errors: [Error!]
   }
 

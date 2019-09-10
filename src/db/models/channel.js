@@ -10,7 +10,6 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         type:  DataTypes.INTEGER
       },
- 
       public: {
         defaultValue: false,
         type:  DataTypes.BOOLEAN

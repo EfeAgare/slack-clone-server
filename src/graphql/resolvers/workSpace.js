@@ -3,11 +3,11 @@ import { requiresAuth } from '../../utils/permissions';
 
 export default {
   Query: {
-    allWorkSpace: async (root, args, { models, user }, info) => {
+    allWorkSpace: requiresAuth.createResolver(async (root, args, { models, user }, info) => {
       try {
 
         return  models.WorkSpace.findAll(
-          { where: { userId: "1" } },
+          { where: { userId: user.id } },
           { raw: true }
         )
       } catch (error) {
@@ -17,10 +17,11 @@ export default {
         };
       }
     }
+    )
   },
 
   Mutation: {
-    createWorkSpace: (
+    createWorkSpace: requiresAuth.createResolver(
       async (root, args, { models, user }, info) => {
         try {
           const workSpace = await models.WorkSpace.create({ ...args, userId: user.id });
@@ -39,7 +40,7 @@ export default {
     channels: async ({ id }, args, { models }) =>{
       return models.Channel.findAll( {where:
        {workSpaceId: id }})
-      // models.Channel.findAll({ WorkSpaceId: id })
+     
     }
   }
 };
