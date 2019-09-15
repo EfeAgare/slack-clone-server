@@ -5,7 +5,7 @@ export default gql`
     id: Int!
     name: String!
     userId: String!
-    member: [Member!]!
+    workspacemembers: [WorkSpaceMember!]!
     channels: [Channel!]!
     createdAt: String!
     updatedAt: String!

@@ -30,7 +30,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: slack_database_development
     ports:
-    - "5434:5432"
+    - "5432:5432"
 
 networks:
   default:
