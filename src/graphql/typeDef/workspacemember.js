@@ -4,7 +4,9 @@ export default gql`
   type WorkSpaceMember {
     id: Int!
     workSpaceId: [WorkSpace!]!
+    userId: [User!]!
     email: [User!]!
+    url: String!
     createdAt: String!
     updatedAt: String!
   }
@@ -16,6 +18,6 @@ export default gql`
   }
 
   extend type Mutation {
-    createWorkSpaceMembers(email: String! , workSpaceId: Int!): VoidResponse!
+    createWorkSpaceMembers(email: String!, workSpaceId: Int!, url: String!): VoidResponse!
   }
 `;

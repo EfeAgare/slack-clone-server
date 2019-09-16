@@ -1,34 +1,46 @@
 import { formatErrors } from '../../utils/formatError';
 import { requiresAuth } from '../../utils/permissions';
+import addUserToWorkspaceMail from "../../mailer/addUserToWorkspace"
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default {
   Query: {
-    allWorkSpaceMembers: requiresAuth.createResolver(async (root, args, { models, user }, info) => {
-      try {
-
-        return  models.WorkSpaceMember.findAll(
-          { where: { userId: user.id } },
-          { raw: true }
-        )
-      } catch (error) {
-        return {
-          ok: false,
-          errors: formatErrors(error, models)
-        };
-      }
-    }
-    )
   },
 
   Mutation: {
-    createWorkSpaceMembers: requiresAuth.createResolver(
-      async (root, {email, workSpaceId}, { models, user }, info) => {
+    createWorkSpaceMembers: 
+      async (root, {email, workSpaceId, url }, { models, user }, info) => {
         try {
+          // const response = await models.sequelize.transaction(async () => {
 
-          const workSpacePromise = models.WorkSpace.findOne({where: {id: workSpaceId} });
-          const workSpaceOwner = models.User.findOne({where: {email: email} });
-    
-          return { ok: true, workSpace };
+          const workSpace =  await models.WorkSpace.findOne({where: {id: workSpaceId} }, {raw: true});
+          if (workSpace.userId !== user.id) {
+            return {
+              ok: false,
+              errors: [{ path: 'email', message: 'You cannot add members to the team' }],
+            };
+          }
+
+          
+          const createToken = jwt.sign({ workSpaceId: workSpaceId }, process.env.SECRET, {
+            expiresIn: '7d'
+          });
+          const error = addUserToWorkspaceMail(workSpace.name, email, url, createToken)
+          if (error) {
+            return {
+              ok: false,
+              errors: [{ path: 'unknown', message: 'Email failed to send' }],
+            };
+          }
+
+          return {
+            ok: true
+          }
+        
+        // return { ok: true, response };
         } catch (error) {
           return {
             ok: false,
@@ -36,13 +48,6 @@ export default {
           };
         }
       }
-    )
-  },
-  WorkSpace: {
-    channels: async ({ id }, args, { models }) =>{
-      return models.Channel.findAll( {where:
-       {workSpaceId: id }})
-     
-    }
+    
   }
 };
