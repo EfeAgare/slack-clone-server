@@ -36,7 +36,6 @@ const server = new ApolloServer({
   resolvers,
   playground: true,
   context: async ({ req, res }) => {
-    
     const token = req.headers['x-token'] || '';
     const refreshToken = req.headers['x-refresh-token'] || '';
     const user = await getUser(token, refreshToken, secret, models, res);
@@ -46,8 +45,11 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 
-app.listen(PORT, () =>
-  console.log(
-    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
-  )
-);
+
+models.sequelize.sync({}).then(() => {
+  app.listen(PORT, () =>
+    console.log(
+      `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+    )
+  );
+});

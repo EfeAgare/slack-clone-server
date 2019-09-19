@@ -10,7 +10,7 @@
     "create": "sequelize db:create",
     "drop": "sequelize db:drop",
     "clean:db": "sequelize db:migrate:undo:all",
-    "migrate:refresh": "npm run clean:db && npm run migrate"
+    "migrate:refresh": "babel-node src/db/migrate_refresh.js"
   },
   "repository": {
     "type": "git",

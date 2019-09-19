@@ -6,10 +6,6 @@ export default (sequelize, DataTypes) => {
         type:  DataTypes.STRING,
         allowNull: false
       },
-      workSpaceId: {
-        allowNull: false,
-        type:  DataTypes.INTEGER
-      },
       public: {
         defaultValue: false,
         type:  DataTypes.BOOLEAN
@@ -20,19 +16,15 @@ export default (sequelize, DataTypes) => {
   Channel.associate = models => {
     // associations can be defined here
 
-    // Channel.belongsTo(models.WorkSpace, {
-    //   foreignKey: 'workSpaceId',
-    // });
+    Channel.belongsTo(models.WorkSpace);
 
-    // Channel.hasMany(models.Message, {
-    //   foreignKey: 'channelId',
-    // });
+    Channel.hasMany(models.Message);
 
 
-    // Channel.belongsToMany(models.User, {
-    //   through: 'ChannelMember',
-    //   foreignkey: 'channelId'
-    // });
+    Channel.belongsToMany(models.User, {
+      through: 'ChannelMember',
+      // foreignkey: 'channelId'
+    });
   };
   return Channel;
 };

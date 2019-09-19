@@ -5,24 +5,20 @@ export default (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false
-      },
-      userId: {
-        type: DataTypes.INTEGER
       }
     },
     {}
   );
   WorkSpace.associate = models => {
-    // WorkSpace.belongsToMany(models.User, {
-    //   through: 'WorkSpaceMembers',
-    //   foreignkey: 'userId'
-    // });
+    WorkSpace.belongsToMany(models.User, {
+      through: 'WorkSpaceMember',
+      // foreignkey: 'workSpaceId',
+      // sourfeKey: 'userId'
+    });
 
-    // WorkSpace.hasMany(models.Channel, { foreignkey: 'workSpaceId'});
+    WorkSpace.hasMany(models.Channel);
 
-    // WorkSpace.belongsTo(models.User, {
-    //   foreignkey: 'userId'
-    // });
+    WorkSpace.belongsTo(models.User);
     // associations can be defined here
   };
   return WorkSpace;

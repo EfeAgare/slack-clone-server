@@ -43,28 +43,27 @@ export default (sequelize, DataTypes) => {
     {
       hooks: {
         afterValidate: async (user, options) => {
-          const hashPassword = await bcrypt.hashSync(user.password, 10);
+          const hashPassword = bcrypt.hashSync(user.password, 10);
           user.password = hashPassword;
         }
       }
     }
   );
   User.associate = models => {
-    // User.belongsToMany(models.WorkSpace, {
-    //   through: 'WorkSpaceMembers',
-    //   foreignkey: 'workSpaceId'
-    // });
+    User.belongsToMany(models.WorkSpace, {
+      through: 'WorkSpaceMember',
+      // foreignkey: 'userId',
+      // otherKey: 'workSpaceId'
+    });
 
-    // User.hasMany(models.WorkSpace, {
-    //   foreignkey: 'ownerId'
-    // });
+    User.hasMany(models.WorkSpace);
 
-    // User.hasMany(models.Message, { foreignkey: 'userId' });
+    User.hasMany(models.Message);
 
-    // User.belongsToMany(models.Channel, {
-    //   through: 'ChannelMember',
-    //   // foreignkey: 'userId'
-    // });
+    User.belongsToMany(models.Channel, {
+      through: 'ChannelMember',
+      // foreignkey: 'userId'
+    });
 
     // associations can be defined here
   };

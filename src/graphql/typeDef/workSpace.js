@@ -4,7 +4,7 @@ export default gql`
   type WorkSpace {
     id: Int!
     name: String!
-    userId: String!
+    UserId: String!
     workspacemembers: [WorkSpaceMember!]!
     channels: [Channel!]!
     createdAt: String!
@@ -13,12 +13,13 @@ export default gql`
 
   type CreateWorkSpaceResponse {
     ok: Boolean!
-    workSpace: WorkSpace!
+    workSpace: WorkSpace
     errors: [Error!]
   }
 
   extend type Query {
     allWorkSpace: [WorkSpace!]!
+    allInvitedWorkSpace: [WorkSpace!]!
   }
   extend type Mutation {
     createWorkSpace(name: String!): CreateWorkSpaceResponse!

@@ -17,7 +17,7 @@ export default {
           // const response = await models.sequelize.transaction(async () => {
 
           const workSpace =  await models.WorkSpace.findOne({where: {id: workSpaceId} }, {raw: true});
-          if (workSpace.userId !== user.id) {
+          if (workSpace.UserId !== user.id) {
             return {
               ok: false,
               errors: [{ path: 'email', message: 'You cannot add members to the team' }],

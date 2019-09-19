@@ -1,22 +1,47 @@
 import { formatErrors } from '../../utils/formatError';
 import { requiresAuth } from '../../utils/permissions';
+var Sequelize = require('sequelize');
+var Op = Sequelize.Op;
 
 export default {
   Query: {
-    allWorkSpace: requiresAuth.createResolver(async (root, args, { models, user }, info) => {
-      try {
-
-        return  models.WorkSpace.findAll(
-          { where: { userId: user.id } },
-          { raw: true }
-        )
-      } catch (error) {
-        return {
-          ok: false,
-          errors: formatErrors(error, models)
-        };
+    allWorkSpace: requiresAuth.createResolver(
+      async (root, args, { models, user }, info) => {
+        try {
+          return await models.WorkSpace.findAll(
+            { where: { UserId: user.id } },
+            { raw: true }
+          );
+        } catch (error) {
+          return {
+            ok: false,
+            errors: formatErrors(error, models)
+          };
+        }
       }
-    }
+    ),
+    allInvitedWorkSpace: requiresAuth.createResolver(
+      async (root, args, { models, user }, info) => {
+        try {
+         
+         return await models.WorkSpace.findAll(
+            {
+              include: [
+                {
+                  model: models.User,
+                  where: { id: user.id }
+                }
+              ]
+            },
+            { raw: true })
+          
+        } catch (error) {
+          return {
+            ok: false,
+            errors: formatErrors(error, models)
+          };
+        }
+      }
     )
   },
 
@@ -24,13 +49,25 @@ export default {
     createWorkSpace: requiresAuth.createResolver(
       async (root, args, { models, user }, info) => {
         try {
-          const response = await models.sequelize.transaction(async () => {
-            const workSpace = await models.WorkSpace.create({ ...args, userId: user.id });
-            await models.Channel.create({ name: 'general', public: true, teamId: team.id });
-            await models.Channel.create({ name: 'random', public: true, teamId: team.id });
+          const workSpace = await models.sequelize.transaction(async () => {
+            const workSpace = await models.WorkSpace.create({
+              ...args,
+              UserId: user.id
+            });
+            
+            await models.Channel.create({
+              name: 'general',
+              public: true,
+              WorkSpaceId: workSpace.id
+            });
+            await models.Channel.create({
+              name: 'random',
+              public: true,
+              WorkSpaceId: workSpace.id
+            });
             return workSpace;
-          });    
-          return { ok: true, response };
+          });
+          return { ok: true, workSpace };
         } catch (error) {
           return {
             ok: false,
@@ -41,10 +78,8 @@ export default {
     )
   },
   WorkSpace: {
-    channels: async ({ id }, args, { models }) =>{
-      return models.Channel.findAll( {where:
-       {workSpaceId: id }})
-     
+    channels: async ({ id }, args, { models }) => {
+      return models.Channel.findAll({ where: { WorkSpaceId: id } });
     }
   }
 };

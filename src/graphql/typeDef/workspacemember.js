@@ -3,8 +3,8 @@ import { gql } from 'apollo-server-express';
 export default gql`
   type WorkSpaceMember {
     id: Int!
-    workSpaceId: [WorkSpace!]!
-    userId: [User!]!
+    WorkSpaceId: [WorkSpace!]!
+    UserId: [User!]!
     email: [User!]!
     url: String!
     createdAt: String!

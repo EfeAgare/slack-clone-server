@@ -20,26 +20,25 @@ export default {
     register: async (root, args, { req, res, models, secret }, info) => {
       try {
         let user;
-        
-        
+
         if (args.token) {
           const { workSpaceId } = jwt.verify(args.token, process.env.SECRET);
-          const workSpace = await models.WorkSpace.findOne(
-            { where: { id: workSpaceId } },
-
-          );
+          const workSpace = await models.WorkSpace.findOne({
+            where: { id: workSpaceId }
+          });
           if (workSpace.id) {
-            user = await models.User.create(args);
-            await models.WorkSpaceMember.create({
-              userId: user.id,
-              workSpaceId: workSpace.id
-            })
-
-          } else{
+            await models.sequelize.transaction(async () => {
+              user = await models.User.create(args);
+              await models.WorkSpaceMember.create({
+                UserId: user.id,
+                WorkSpaceId: workSpace.id
+              });
+            });
+          } else {
             return {
               ok: false,
-              errors: [{ path: 'unknown', message: 'Token has expired' }],
-            }
+              errors: [{ path: 'unknown', message: 'Token has expired' }]
+            };
           }
         } else {
           user = await models.User.create(args);
@@ -69,5 +68,3 @@ export default {
     }
   }
 };
-
-
