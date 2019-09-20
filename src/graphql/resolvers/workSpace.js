@@ -1,7 +1,5 @@
 import { formatErrors } from '../../utils/formatError';
 import { requiresAuth } from '../../utils/permissions';
-var Sequelize = require('sequelize');
-var Op = Sequelize.Op;
 
 export default {
   Query: {
