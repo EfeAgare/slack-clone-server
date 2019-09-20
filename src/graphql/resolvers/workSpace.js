@@ -24,6 +24,7 @@ export default {
       async (root, args, { models, user }, info) => {
         try {
          
+            // return await models.sequelize.query("select * from workspace join workspacemembers on id = WorkSpaceId where UserId = ?",{model: models.WorkSpace})
          return await models.WorkSpace.findAll(
             {
               include: [
