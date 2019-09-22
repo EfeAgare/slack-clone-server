@@ -1,19 +1,22 @@
 import { gql } from 'apollo-server-express';
 
+
 export default gql`
+  scalar DateTime
+
   type Message {
     id: Int!
     text: String!
-    userId: Int!
-    channelId: Int!
-    createdAt: String!
-    updatedAt: String!
+    user: User!
+    ChannelId: Int!
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type Response {
     ok: Boolean
   }
-  
+
   extend type Query {
     channelMessages(channelId: Int!): [Message!]!
   }
