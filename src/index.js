@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
+import  http from 'http';
 import cors from 'cors';
 
 import typeDefs from './graphql/typeDef';
@@ -31,7 +32,7 @@ app.use(bodyParser.json());
 
 // app.use(getUser);
 
-const server = new ApolloServer({
+const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   playground: true,
@@ -43,13 +44,26 @@ const server = new ApolloServer({
   }
 });
 
-server.applyMiddleware({ app });
+apolloServer.applyMiddleware({ app });
+
+const httpServer = http.createServer(app);
+apolloServer.installSubscriptionHandlers(httpServer);
 
 
 models.sequelize.sync({}).then(() => {
-  app.listen(PORT, () =>
-    console.log(
-      `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
-    )
-  );
+  // when using subscription
+  httpServer.listen(PORT, () => {
+    console.log(apolloServer.subscriptionsPath)
+    console.log(`🚀 Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`)
+    console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${apolloServer.subscriptionsPath}`)
+  })
+
+  // // when not using subscription
+  // app.listen(PORT, () =>
+  //   console.log(
+  //     `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+  //   )
+  // );
 });
+
+

@@ -42,7 +42,7 @@ export const tryLogin = async (email, password, models, secret) => {
 // create token
 export const createTokens = async (user, secret, secret2) => {
   const createToken = jwt.sign({ user: _.pick(user, ['id', "username"]) }, secret, {
-    expiresIn: '1h'
+    expiresIn: '2d'
   });
 
   const createRefreshToken = jwt.sign({ user: _.pick(user, ['id', "username"]) }, secret2, {
