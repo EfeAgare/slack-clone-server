@@ -17,6 +17,9 @@ export default gql`
     ok: Boolean
   }
 
+  extend type Subscription {
+    newChannelMessage(channelId: Int!): Message!
+  }
   extend type Query {
     channelMessages(channelId: Int!): [Message!]!
   }
