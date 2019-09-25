@@ -23,3 +23,19 @@ export const requiresAuth = createResolver((parent, args, { user }) => {
 //     }
 //   }
 // );
+
+
+export const requiresWorkSpaceAccess = createResolver(async (parent, { channelId }, { user, models }) => {
+  if (!user || !user.id) {
+    throw new Error('Not authenticated');
+  }
+ 
+  // check if part of the channels in the team
+  const channel = await models.Channel.findOne({ where: { id: channelId } });
+  const channelMember = await models.ChannelMember.findOne({
+    where: { ChannelId: channel.id, UserId: user.id },
+  });
+  if (!channelMember) {
+    throw new Error("You have to be a member of this Channel to subcribe to it's messages");
+  }
+});

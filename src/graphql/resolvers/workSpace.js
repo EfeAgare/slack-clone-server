@@ -21,9 +21,8 @@ export default {
     allInvitedWorkSpace: requiresAuth.createResolver(
       async (root, args, { models, user }, info) => {
         try {
-         
-            // return await models.sequelize.query("select * from workspace join workspacemembers on id = WorkSpaceId where UserId = ?",{model: models.WorkSpace})
-         return await models.WorkSpace.findAll(
+          // return await models.sequelize.query("select * from workspace join workspacemembers on id = WorkSpaceId where UserId = ?",{model: models.WorkSpace})
+          return await models.WorkSpace.findAll(
             {
               include: [
                 {
@@ -32,8 +31,8 @@ export default {
                 }
               ]
             },
-            { raw: true })
-          
+            { raw: true }
+          );
         } catch (error) {
           return {
             ok: false,
@@ -53,17 +52,26 @@ export default {
               ...args,
               UserId: user.id
             });
-            
-            await models.Channel.create({
+
+             await models.WorkSpaceMember.create({
+              WorkSpaceId: workSpace.id,
+              UserId: user.id
+            });
+            const channel1 = await models.Channel.bulkCreate({
               name: 'general',
               public: true,
               WorkSpaceId: workSpace.id
             });
-            await models.Channel.create({
+            const channel2 = await models.Channel.create({
               name: 'random',
               public: true,
               WorkSpaceId: workSpace.id
             });
+            await models.ChannelMember.bulkCreate(
+              { ChannelId: channel1, UserId: user.id },
+              { ChannelId: channel2, UserId: user.id }
+            );
+
             return workSpace;
           });
           return { ok: true, workSpace };

@@ -55,36 +55,15 @@ const apolloServer = new ApolloServer({
       console.log('Connected.');
 
       if (token && refreshToken) {
-        
-        let user = '';
         try {
-          const payload = jwt.verify(token, secret);
-          user = payload.user;
+          const { user } = jwt.verify(token, secret);
+          return { models, user };
         } catch (err) {
-          const newTokens = await getUser(
-            token,
-            refreshToken,
-            secret,
-            models
-          );
-          user = newTokens.user;
+          const newTokens = await getUser(token, refreshToken, secret, models);
+          return { models, user: newTokens.user };
         }
-        if (!user) {
-          throw new Error('Invalid auth tokens');
-        }
-
-        // const member = await models.Member.findOne({
-        //   where: { teamId: 1, userId: user.id }
-        // });
-
-        // if (!member) {
-        //   throw new Error('Missing auth tokens!');
-        // }
-
-        return true;
       }
-
-      throw new Error('Missing auth tokens!');
+      return { models };
     },
     onDisconnect: async () => {
       console.log('Disconnected.');

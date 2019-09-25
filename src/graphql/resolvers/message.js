@@ -1,5 +1,5 @@
 import { formatErrors } from '../../utils/formatError';
-import { requiresAuth } from '../../utils/permissions';
+import { requiresAuth, requiresWorkSpaceAccess } from '../../utils/permissions';
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import { withFilter, PubSub } from 'graphql-subscriptions';
@@ -12,11 +12,15 @@ const NEW_CHANNEL_MESSAGE = 'NEW_CHANNEL_MESSAGE';
 export default {
   Subscription: {
     newChannelMessage: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
-        (payload, args) => {
-          return payload.channelId === args.channelId;
-        }
+      subscribe: requiresWorkSpaceAccess.createResolver(
+        withFilter(
+          (parent, args, { user, models }) =>
+            pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
+          (payload, args) => {
+            console.log('here');
+            return payload.channelId === args.channelId;
+          }
+        )
       )
     }
   },
@@ -62,19 +66,19 @@ export default {
           const asyncFunc = async () => {
             const currentUser = await models.User.findOne({
               where: {
-                id: user.id,
-              },
+                id: user.id
+              }
             });
-  
+
             pubsub.publish(NEW_CHANNEL_MESSAGE, {
               channelId: args.channelId,
               newChannelMessage: {
                 ...message.dataValues,
-                user: currentUser.dataValues,
-              },
+                user: currentUser.dataValues
+              }
             });
           };
-  
+
           asyncFunc();
 
           return { ok: true };
