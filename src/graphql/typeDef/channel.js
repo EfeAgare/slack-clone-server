@@ -1,15 +1,14 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-  scalar Date
 
   type Channel {
     id: Int!
     name: String!
     public: Boolean!
     workSpace: [WorkSpace!]!
-    createdAt: Date
-    updatedAt: Date
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type ChannelResponse {
