@@ -4,8 +4,7 @@ export default gql`
   type WorkSpaceMember {
     id: Int!
     WorkSpaceId: [WorkSpace!]!
-    UserId: [User!]!
-    email: [User!]!
+    user: [User!]!
     url: String!
     createdAt: String!
     updatedAt: String!
@@ -15,6 +14,9 @@ export default gql`
     ok: Boolean!
     errors: [Error!]
 
+  }
+  extend type Query{
+    getAllWorkSpaceMember(workSpaceId: Int!): [User!]!
   }
 
   extend type Mutation {

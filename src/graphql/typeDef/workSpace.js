@@ -5,7 +5,7 @@ export default gql`
     id: Int!
     name: String!
     UserId: String!
-    workspacemembers: [WorkSpaceMember!]!
+    directMessageMembers: [User!]!
     channels: [Channel!]!
     createdAt: String!
     updatedAt: String!

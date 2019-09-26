@@ -39,19 +39,19 @@ export default {
     directMessages: requiresAuth.createResolver(
       async (root, { workSpaceId, otherUserId }, { models, user }, info) => {
         try {
-      
+ 
           return await models.DirectMessage.findAll(
             {
               order: [['createdAt', 'ASC']],
-              distinct: true,
+              // distinct: true,
               where: {
                 WorkSpaceId: workSpaceId,
                 [Op.or]: [
                   {
-                    [Op.and]: [{ receiverId: otherUserId }, { UserId: user.id }]
+                    [Op.and]: [{ receiverId: user.id }, { UserId: otherUserId }]
                   },
                   {
-                    [Op.and]: [{ receiverId: user.id }, { UserId: otherUserId }]
+                    [Op.and]:  [{ receiverId: otherUserId }, { UserId: user.id }]
                   }
                 ]
               }
