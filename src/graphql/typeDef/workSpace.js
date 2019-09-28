@@ -19,7 +19,7 @@ export default gql`
 
   extend type Query {
     allWorkSpace: [WorkSpace!]!
-    allInvitedWorkSpace: [WorkSpace!]!
+    # allInvitedWorkSpace: [WorkSpace!]!
   }
   extend type Mutation {
     createWorkSpace(name: String!): CreateWorkSpaceResponse!

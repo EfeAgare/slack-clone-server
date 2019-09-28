@@ -6,33 +6,27 @@ export default {
     allWorkSpace: requiresAuth.createResolver(
       async (root, args, { models, user }, info) => {
         try {
-          return await models.WorkSpace.findAll(
-            { where: { UserId: user.id } },
-            { raw: true }
-          );
-        } catch (error) {
-          return {
-            ok: false,
-            errors: formatErrors(error, models)
-          };
-        }
-      }
-    ),
-    allInvitedWorkSpace: requiresAuth.createResolver(
-      async (root, args, { models, user }, info) => {
-        try {
-          // return await models.sequelize.query("select * from workspace join workspacemembers on id = WorkSpaceId where UserId = ?",{model: models.WorkSpace})
-          return await models.WorkSpace.findAll(
+          return await models.sequelize.query(
+            `select * from "WorkSpaces" as "w" join "WorkSpaceMembers" as "m" on ("w"."id" = "m"."WorkSpaceId")
+            where "m"."UserId" = ?`,
             {
-              include: [
-                {
-                  model: models.User,
-                  where: { id: user.id }
-                }
-              ]
-            },
-            { raw: true }
+              replacements: [user.id],
+              model: models.WorkSpace,
+              raw: true
+            }
           );
+          // return await models.WorkSpace.findAll(
+          //   {
+          //     where: { UserId: user.id },
+          //     include: [
+          //       {
+          //         model: models.User,
+          //         where: { id: user.id }
+          //       }
+          //     ]
+          //   },
+          //   { raw: true }
+          // );
         } catch (error) {
           return {
             ok: false,
@@ -41,6 +35,30 @@ export default {
         }
       }
     )
+    // allInvitedWorkSpace: requiresAuth.createResolver(
+    //   async (root, args, { models, user }, info) => {
+    //     try {
+    //       // return await models.sequelize.query("select * from workspace join workspacemembers on id = WorkSpaceId where UserId = ?",{model: models.WorkSpace})
+    //       return await models.WorkSpace.findAll(
+    //         {
+    //           distinct: true,
+    //           include: [
+    //             {
+    //               model: models.User,
+    //               where: { id: user.id }
+    //             }
+    //           ]
+    //         },
+    //         { raw: true }
+    //       );
+    //     } catch (error) {
+    //       return {
+    //         ok: false,
+    //         errors: formatErrors(error, models)
+    //       };
+    //     }
+    //   }
+    // )
   },
 
   Mutation: {
@@ -53,11 +71,11 @@ export default {
               UserId: user.id
             });
 
-             await models.WorkSpaceMember.create({
+            await models.WorkSpaceMember.create({
               WorkSpaceId: workSpace.id,
               UserId: user.id
             });
-            const channel1 = await models.Channel.bulkCreate({
+            const channel1 = await models.Channel.create({
               name: 'general',
               public: true,
               WorkSpaceId: workSpace.id
@@ -67,10 +85,11 @@ export default {
               public: true,
               WorkSpaceId: workSpace.id
             });
-            await models.ChannelMember.bulkCreate(
-              { ChannelId: channel1, UserId: user.id },
-              { ChannelId: channel2, UserId: user.id }
-            );
+
+            await models.ChannelMember.bulkCreate([
+              { ChannelId: channel1.id, UserId: user.id },
+              { ChannelId: channel2.id, UserId: user.id }
+            ]);
 
             return workSpace;
           });
@@ -87,6 +106,18 @@ export default {
   WorkSpace: {
     channels: async ({ id }, args, { models }) => {
       return models.Channel.findAll({ where: { WorkSpaceId: id } });
+    },
+    directMessageMembers: async ({ id }, args, { models, user }) => {
+      
+      return await models.sequelize.query(
+        `select distinct on ("u"."id") "u"."id", "u"."username" from "Users" as "u" join "DirectMessages" as "dm" on ("u"."id" = "dm"."receiverId") or ("u"."id" = "dm"."UserId")
+        where (:currentUserId = "dm"."receiverId" or :currentUserId = "dm"."UserId") and "dm"."WorkSpaceId" = :workSpaceId`,
+        {
+          replacements: { currentUserId: user.id, workSpaceId: id },
+          model: models.User,
+          raw: true
+        }
+      );
     }
   }
 };

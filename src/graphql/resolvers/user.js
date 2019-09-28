@@ -33,6 +33,28 @@ export default {
                 UserId: user.id,
                 WorkSpaceId: workSpace.id
               });
+              const channel1 = await models.Channel.findOne(
+                {
+                  where: {
+                    name: 'general'
+                  }
+                },
+
+                { raw: true }
+              );
+              const channel2 = await models.Channel.findOne(
+                {
+                  where: {
+                    name: 'random'
+                    
+                  }
+                },
+                { raw: true }
+              );
+              await models.ChannelMember.bulkCreate([
+                { ChannelId: channel1.id, UserId: user.id },
+                { ChannelId: channel2.id, UserId: user.id }
+              ]);
             });
           } else {
             return {

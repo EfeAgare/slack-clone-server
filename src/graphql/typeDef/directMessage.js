@@ -6,6 +6,7 @@ export default gql`
     id: Int!
     text: String!
     sender: User!
+    UserId: Int!
     receiverId: Int!
     createdAt: DateTime
   }
