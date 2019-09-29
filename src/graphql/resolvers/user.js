@@ -7,8 +7,8 @@ dotenv.config();
 
 export default {
   Query: {
-    getUser: (root, args, { req, res, models }, info) => {
-      return models.User.findByPk(args.id);
+    getUser: (root, { userId }, { req, res, models }, info) => {
+      return models.User.findOne({ where: { id: userId } });
     },
 
     allUsers: async (root, args, { req, res, models }, info) => {
@@ -46,7 +46,6 @@ export default {
                 {
                   where: {
                     name: 'random'
-                    
                   }
                 },
                 { raw: true }
