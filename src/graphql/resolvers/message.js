@@ -2,10 +2,9 @@ import { formatErrors } from '../../utils/formatError';
 import { requiresAuth, requiresWorkSpaceAccess } from '../../utils/permissions';
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
-import { withFilter, PubSub } from 'graphql-subscriptions';
+import { withFilter } from 'graphql-subscriptions';
 import { GraphQLDateTime } from 'graphql-iso-date';
-
-const pubsub = new PubSub();
+import pubsub from '../pubsub/pubsub';
 
 const NEW_CHANNEL_MESSAGE = 'NEW_CHANNEL_MESSAGE';
 
