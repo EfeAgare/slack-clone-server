@@ -62,7 +62,6 @@ export default {
           let message;
 
           if (args.file !== undefined) {
-            console.log(await args.file)
             const { createReadStream, filename, mimetype } = await args.file;
             console.log('cloudinary');
             

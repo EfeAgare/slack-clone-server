@@ -5,7 +5,6 @@ import {
 } from '../../utils/permissions';
 import { withFilter } from 'graphql-subscriptions';
 import Sequelize from 'sequelize';
-import { createReadStream } from 'fs';
 import pubsub from '../pubsub/pubsub';
 import cloudinary from '../cloudinary';
 
@@ -81,10 +80,10 @@ export default {
 
          
           if (args.file !== undefined) {
-            const { createReadStream, filename } = await args.file;
+            const { createReadStream, filename, mimetype } = await args.file;
             const result = await new Promise((resolve, reject) => {
               createReadStream().pipe(
-                cloudinary.uploader.upload_stream((error, result) => {
+                cloudinary.v2.uploader.upload_stream((error, result) => {
                   if (error) {
                     reject(error);
                   }
@@ -97,6 +96,7 @@ export default {
               UserId: user.id,
               receiverId: args.receiverId,
               filename: filename,
+              filetype: mimetype,
               path: result.secure_url,
               WorkSpaceId: args.workSpaceId
             });
