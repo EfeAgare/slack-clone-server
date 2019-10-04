@@ -20,6 +20,6 @@ export default gql`
   }
 
   extend type Mutation {
-    createWorkSpaceMembers(email: String!, workSpaceId: Int!, url: String!): VoidResponse!
+    createWorkSpaceMembers(email: [String!], workSpaceId: Int!, url: String!): VoidResponse!
   }
 `;

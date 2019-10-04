@@ -61,6 +61,7 @@ export default {
             url,
             createToken
           );
+
           if (error) {
             return {
               ok: false,
