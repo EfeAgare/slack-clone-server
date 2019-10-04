@@ -5,6 +5,8 @@ export default gql`
   type DirectMessage {
     id: Int!
     text: String!
+    path: String
+    filename: String
     sender: User!
     UserId: Int!
     receiverId: Int!
@@ -14,7 +16,7 @@ export default gql`
     directMessages(workSpaceId: Int!, otherUserId: Int!): [DirectMessage!]!
   }
   extend type Mutation {
-    createDirectMessage(receiverId: Int!, text: String!, workSpaceId: Int!): Boolean!
+    createDirectMessage(receiverId: Int!, text: String!, workSpaceId: Int!, file: Upload): Boolean!
   }
 
   extend type Subscription {

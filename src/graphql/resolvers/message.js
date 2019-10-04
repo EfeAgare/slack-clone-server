@@ -5,6 +5,8 @@ import { Kind } from 'graphql/language';
 import { withFilter } from 'graphql-subscriptions';
 import { GraphQLDateTime } from 'graphql-iso-date';
 import pubsub from '../pubsub/pubsub';
+import cloudinary from '../cloudinary';
+
 
 const NEW_CHANNEL_MESSAGE = 'NEW_CHANNEL_MESSAGE';
 
@@ -55,12 +57,41 @@ export default {
   Mutation: {
     createMessage: requiresAuth.createResolver(
       async (root, args, { models, user }, info) => {
+
         try {
-          const message = await models.Message.create({
-            text: args.text,
-            UserId: user.id,
-            ChannelId: args.channelId
-          });
+          let message;
+
+          if (args.file !== undefined) {
+            console.log(await args.file)
+            const { createReadStream, filename, mimetype } = await args.file;
+            console.log('cloudinary');
+            
+            const result = await new Promise((resolve, reject) => {
+              createReadStream().pipe(
+                cloudinary.v2.uploader.upload_stream((error, result) => {
+                  if (result) {
+                    resolve(result);
+                  } else {
+                    console.log(error);
+                    reject(error);
+                  }
+                })
+              );
+            });  
+            message = await models.Message.create({
+              UserId: user.id,
+              filename: filename,
+              filetype: mimetype,
+              path: result.secure_url,
+              ChannelId: args.channelId
+            });
+          } else {
+            message = await models.Message.create({
+              text: args.text,
+              UserId: user.id,
+              ChannelId: args.channelId
+            });
+          }
 
           const asyncFunc = async () => {
             const currentUser = await models.User.findOne({

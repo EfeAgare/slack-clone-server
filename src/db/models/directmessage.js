@@ -4,7 +4,16 @@ export default (sequelize, DataTypes) => {
     {
       text: {
         type: DataTypes.TEXT,
-        allowNull: false
+      },
+      filename: {
+        type: DataTypes.STRING,
+       
+      },
+      filetype: {
+        type: DataTypes.STRING
+      },
+      path: {
+        type: DataTypes.STRING
       },
       receiverId: {
         type: DataTypes.INTEGER,

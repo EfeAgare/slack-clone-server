@@ -1,12 +1,15 @@
 import { formatErrors } from '../../utils/formatError';
-import { requiresAuth, directMessageSubscription } from '../../utils/permissions';
+import {
+  requiresAuth,
+  directMessageSubscription
+} from '../../utils/permissions';
 import { withFilter } from 'graphql-subscriptions';
 import Sequelize from 'sequelize';
+import { createReadStream } from 'fs';
 import pubsub from '../pubsub/pubsub';
+import cloudinary from '../cloudinary';
 
 const Op = Sequelize.Op;
-
-
 
 const NEW_DIRECT_MESSAGE = 'NEW_DIRECT_MESSAGE';
 
@@ -18,8 +21,13 @@ export default {
           (parent, args, { user, models }) =>
             pubsub.asyncIterator(NEW_DIRECT_MESSAGE),
           (payload, args, { user }) => {
-            return  payload.workSpaceId === args.workSpaceId && ((payload.senderId === user.id && payload.receiverId === args.receiverId) ||
-              (payload.senderId === args.receiverId && payload.receiverId === user.id))
+            return (
+              payload.workSpaceId === args.workSpaceId &&
+              ((payload.senderId === user.id &&
+                payload.receiverId === args.receiverId) ||
+                (payload.senderId === args.receiverId &&
+                  payload.receiverId === user.id))
+            );
           }
         )
       )
@@ -69,27 +77,49 @@ export default {
     createDirectMessage: requiresAuth.createResolver(
       async (root, args, { models, user }, info) => {
         try {
-          // console.log(args)
-          const message = await models.DirectMessage.create({
-            text: args.text,
-            UserId: user.id,
-            receiverId: args.receiverId,
-            WorkSpaceId: args.workSpaceId
-          });
+          let message;
 
-            pubsub.publish(NEW_DIRECT_MESSAGE, {
-              receiverId: args.receiverId,
-              workSpaceId: args.workSpaceId,
-              senderId: user.id,
-              displayDirectMessage: {
-                ...message.dataValues,
-                sender: {
-                  username: user.username,
-                }
-              }
+         
+          if (args.file !== undefined) {
+            const { createReadStream, filename } = await args.file;
+            const result = await new Promise((resolve, reject) => {
+              createReadStream().pipe(
+                cloudinary.uploader.upload_stream((error, result) => {
+                  if (error) {
+                    reject(error);
+                  }
+
+                  resolve(result);
+                })
+              );
             });
-          
+            message = await models.DirectMessage.create({
+              UserId: user.id,
+              receiverId: args.receiverId,
+              filename: filename,
+              path: result.secure_url,
+              WorkSpaceId: args.workSpaceId
+            });
+          } else {
+            message = await models.DirectMessage.create({
+              text: args.text,
+              UserId: user.id,
+              receiverId: args.receiverId,
+              WorkSpaceId: args.workSpaceId
+            });
+          }
 
+          pubsub.publish(NEW_DIRECT_MESSAGE, {
+            receiverId: args.receiverId,
+            workSpaceId: args.workSpaceId,
+            senderId: user.id,
+            displayDirectMessage: {
+              ...message.dataValues,
+              sender: {
+                username: user.username
+              }
+            }
+          });
 
           return true;
         } catch (error) {

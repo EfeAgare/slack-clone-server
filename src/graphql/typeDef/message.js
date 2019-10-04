@@ -6,9 +6,11 @@ export default gql`
 
   type Message {
     id: Int!
-    text: String!
+    text: String
     user: User!
     ChannelId: Int!
+    path: String
+    filename: String
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -24,6 +26,6 @@ export default gql`
     channelMessages(channelId: Int!): [Message!]!
   }
   extend type Mutation {
-    createMessage(channelId: Int!, text: String!): Response!
+    createMessage(channelId: Int!, text: String, file: Upload): Response!
   }
 `;

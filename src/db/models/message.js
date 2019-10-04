@@ -3,8 +3,16 @@ export default (sequelize, DataTypes) => {
     'Message',
     {
       text: {
-        type:  DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
+      },
+      filename: {
+        type: DataTypes.STRING
+      },
+      filetype: {
+        type: DataTypes.STRING
+      },
+      path: {
+        type: DataTypes.STRING
       }
     },
     {}
