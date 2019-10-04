@@ -6,7 +6,10 @@ export default {
     createChannel: requiresAuth.createResolver(
       async (parent, args, { models }) => {
         try {
-          const channel = await models.Channel.create(args);
+          const channel = await models.Channel.create({
+            WorkSpaceId: args.workSpaceId,
+            ...args
+          });
           return { ok: true, channel };
         } catch (err) {
           console.log(err);
