@@ -2,6 +2,10 @@ import { tryLogin } from '../../utils/auth';
 import { formatErrors } from '../../utils/formatError';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Sequelize from 'sequelize';
+
+
+const Op = Sequelize.Op;
 
 dotenv.config();
 
@@ -36,7 +40,10 @@ export default {
               const channel1 = await models.Channel.findOne(
                 {
                   where: {
-                    name: 'general'
+                [Op.and]: [
+                  { WorkSpaceId: workSpaceId }, { name: 'general' }
+                  
+                ]
                   }
                 },
 
@@ -45,11 +52,15 @@ export default {
               const channel2 = await models.Channel.findOne(
                 {
                   where: {
-                    name: 'random'
-                  }
+                    [Op.and]: [
+                      { WorkSpaceId: workSpaceId }, { name: 'random' }
+                      
+                    ]
+                      }
                 },
                 { raw: true }
               );
+              
               await models.ChannelMember.bulkCreate([
                 { ChannelId: channel1.id, UserId: user.id },
                 { ChannelId: channel2.id, UserId: user.id }

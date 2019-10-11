@@ -104,11 +104,20 @@ export default {
     )
   },
   WorkSpace: {
-    channels: async ({ id }, args, { models }) => {
-      return models.Channel.findAll({ where: { WorkSpaceId: id } });
+    channels: async ({ id }, args, { models, user }) => {
+      
+      return await models.sequelize.query(
+        `select c.* from "Channels" as c join "ChannelMembers" as m on m."ChannelId"=c.id join "Users" as u on m."UserId" = u.id where c."WorkSpaceId"=:workSpaceId and m."UserId"=:userId`,
+        {
+          replacements: { workSpaceId: id, userId: user.id },
+          model: models.Channel
+        },
+        {
+          raw: true
+        }
+      );
     },
     directMessageMembers: async ({ id }, args, { models, user }) => {
-      
       return await models.sequelize.query(
         `select distinct on ("u"."id") "u"."id", "u"."username" from "Users" as "u" join "DirectMessages" as "dm" on ("u"."id" = "dm"."receiverId") or ("u"."id" = "dm"."UserId")
         where (:currentUserId = "dm"."receiverId" or :currentUserId = "dm"."UserId") and "dm"."WorkSpaceId" = :workSpaceId`,

@@ -120,11 +120,11 @@ export default {
       }
     )
   },
-  WorkSpace: {
-    channels: async ({ id }, args, { models }) => {
-      return models.Channel.findAll({ where: { WorkSpaceId: id } });
-    }
-  },
+  // WorkSpace: {
+  //   channels: async ({ id }, args, { models }) => {
+  //     return models.Channel.findAll({ where: { WorkSpaceId: id } });
+  //   }
+  // },
   DateTime: new GraphQLScalarType({
     type: GraphQLDateTime,
     name: 'DateTime',
