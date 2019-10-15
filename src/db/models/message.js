@@ -15,7 +15,12 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING
       }
     },
-    {}
+    { indexes : [
+      // {
+      //   fields: ['created_at']
+      // }
+    ]
+  }
   );
   Message.associate = models => {
     Message.belongsTo(models.User);

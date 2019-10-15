@@ -13,7 +13,7 @@ export default gql`
     createdAt: DateTime
   }
   extend type Query {
-    directMessages(workSpaceId: Int!, otherUserId: Int!): [DirectMessage!]!
+    directMessages(cursor: String, workSpaceId: Int!, otherUserId: Int!): [DirectMessage!]!
   }
   extend type Mutation {
     createDirectMessage(receiverId: Int!, text: String!, workSpaceId: Int!, file: Upload): Boolean!

@@ -6,7 +6,7 @@ import { withFilter } from 'graphql-subscriptions';
 import { GraphQLDateTime } from 'graphql-iso-date';
 import pubsub from '../pubsub/pubsub';
 import cloudinary from '../cloudinary';
-
+import Op from '../../utils/Op'
 
 const NEW_CHANNEL_MESSAGE = 'NEW_CHANNEL_MESSAGE';
 
@@ -15,8 +15,7 @@ export default {
     newChannelMessage: {
       subscribe: requiresWorkSpaceAccess.createResolver(
         withFilter(
-          (parent, args, { user, models }) =>
-            pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
+          (parent, args, {user, models}) => pubsub.asyncIterator(NEW_CHANNEL_MESSAGE),
           (payload, args) => {
             console.log('here');
             return payload.channelId === args.channelId;
@@ -26,24 +25,47 @@ export default {
     }
   },
   Message: {
-    user: async ({ user, UserId }, args, { models }) => {
+    user: async ({user, UserId}, args, {models}) => {
       if (user) {
         return user;
       }
-      return await models.User.findOne({ where: { id: UserId } });
+      return await models.User.findOne({
+          where: {
+            id: UserId
+          }
+        });
     }
   },
   Query: {
     channelMessages: requiresAuth.createResolver(
-      async (root, args, { models }, info) => {
+      async (root, args, {models}, info) => {
         try {
-          return await models.Message.findAll(
-            {
-              order: [['createdAt', 'ASC']],
-              where: { ChannelId: args.channelId }
+
+          const options = {
+            order: [['createdAt', 'DESC']],
+            where: {
+              ChannelId: args.channelId
             },
-            { raw: true }
-          );
+            limit: 35
+          };
+
+          if (args.cursor) {
+            options.where.created_at = {
+              [Op.lt]: args.cursor,
+            };
+          }
+          // console.log(await models.Message.findAll(
+          //   options,
+          //   {
+          //     raw: true
+          //   }
+          // ))
+          return await models.Message.findAll(
+              options,
+              {
+                raw: true
+              }
+            );
         } catch (error) {
           return {
             ok: false,
@@ -56,15 +78,15 @@ export default {
 
   Mutation: {
     createMessage: requiresAuth.createResolver(
-      async (root, args, { models, user }, info) => {
+      async (root, args, {models, user}, info) => {
 
         try {
           let message;
 
           if (args.file !== undefined) {
-            const { createReadStream, filename, mimetype } = await args.file;
+            const {createReadStream, filename, mimetype} = await args.file;
             console.log('cloudinary');
-            
+
             const result = await new Promise((resolve, reject) => {
               createReadStream().pipe(
                 cloudinary.v2.uploader.upload_stream((error, result) => {
@@ -76,7 +98,7 @@ export default {
                   }
                 })
               );
-            });  
+            });
             message = await models.Message.create({
               UserId: user.id,
               filename: filename,
@@ -110,7 +132,9 @@ export default {
 
           asyncFunc();
 
-          return { ok: true };
+          return {
+            ok: true
+          };
         } catch (error) {
           return {
             ok: false,

@@ -23,7 +23,7 @@ export default gql`
     newChannelMessage(channelId: Int!): Message!
   }
   extend type Query {
-    channelMessages(channelId: Int!): [Message!]!
+    channelMessages(cursor: String, channelId: Int!): [Message!]!
   }
   extend type Mutation {
     createMessage(channelId: Int!, text: String, file: Upload): Response!
