@@ -49,19 +49,14 @@ export default {
             limit: 35
           };
 
+
           if (args.cursor) {
-            options.where.created_at = {
+            options.where.createdAt = {
               [Op.lt]: args.cursor,
-            };
+            }
           }
-          // console.log(await models.Message.findAll(
-          //   options,
-          //   {
-          //     raw: true
-          //   }
-          // ))
           return await models.Message.findAll(
-              options,
+              options ,
               {
                 raw: true
               }

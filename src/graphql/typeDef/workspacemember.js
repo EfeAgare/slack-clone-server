@@ -6,8 +6,8 @@ export default gql`
     WorkSpaceId: [WorkSpace!]!
     user: [User!]!
     url: String!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type VoidResponse{

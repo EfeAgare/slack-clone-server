@@ -6,8 +6,8 @@ export default gql`
     username: String!
     email: String!
     channel: [Channel!]!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   extend type Query {

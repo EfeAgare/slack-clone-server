@@ -71,7 +71,7 @@ export default {
           };
 
           if (cursor) {
-            options.where.created_at = {
+            options.where.createdAt = {
               [Op.lt]: cursor,
             };
           }

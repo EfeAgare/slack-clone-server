@@ -7,8 +7,8 @@ export default gql`
     UserId: String!
     directMessageMembers: [User!]!
     channels: [Channel!]!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type CreateWorkSpaceResponse {
