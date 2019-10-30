@@ -11,3 +11,7 @@ Slack clone using Sequelize, GraphQL and React.
 
 ## Linting Library
   * Eslint
+  
+  
+## Front End
+  * https://github.com/EfeAgare/slack-clone-client
