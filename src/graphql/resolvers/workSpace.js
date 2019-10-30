@@ -15,18 +15,6 @@ export default {
               raw: true
             }
           );
-          // return await models.WorkSpace.findAll(
-          //   {
-          //     where: { UserId: user.id },
-          //     include: [
-          //       {
-          //         model: models.User,
-          //         where: { id: user.id }
-          //       }
-          //     ]
-          //   },
-          //   { raw: true }
-          // );
         } catch (error) {
           return {
             ok: false,
@@ -35,30 +23,6 @@ export default {
         }
       }
     )
-    // allInvitedWorkSpace: requiresAuth.createResolver(
-    //   async (root, args, { models, user }, info) => {
-    //     try {
-    //       // return await models.sequelize.query("select * from workspace join workspacemembers on id = WorkSpaceId where UserId = ?",{model: models.WorkSpace})
-    //       return await models.WorkSpace.findAll(
-    //         {
-    //           distinct: true,
-    //           include: [
-    //             {
-    //               model: models.User,
-    //               where: { id: user.id }
-    //             }
-    //           ]
-    //         },
-    //         { raw: true }
-    //       );
-    //     } catch (error) {
-    //       return {
-    //         ok: false,
-    //         errors: formatErrors(error, models)
-    //       };
-    //     }
-    //   }
-    // )
   },
 
   Mutation: {
