@@ -1,56 +1,57 @@
 {
-  "name": "y",
-  "version": "1.0.0",
-  "description": "slack clone with Graqphql and react",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec babel-node src/index.js",
-    "migrate": "sequelize db:migrate",
-    "create": "sequelize db:create",
-    "drop": "sequelize db:drop",
-    "clean:db": "sequelize db:migrate:undo:all",
-    "migrate:refresh": "babel-node src/db/migrate_refresh.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EfeAgare/slack-clone-server.git"
-  },
-  "author": "Efe",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/EfeAgare/slack-clone-server/issues"
-  },
-  "homepage": "https://github.com/EfeAgare/slack-clone-server#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-stage-3": "^7.0.0",
-    "nodemon": "^1.19.1"
-  },
-  "dependencies": {
-    "@babel/register": "^7.5.5",
-    "apollo-server-express": "^2.8.1",
-    "axios": "^0.19.0",
-    "babel-jest": "^24.9.0",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "cloudinary": "^1.15.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
-    "express": "^4.17.1",
-    "graphql": "^14.4.2",
-    "graphql-iso-date": "^3.6.1",
-    "graphql-redis-subscriptions": "^2.1.1",
-    "jest": "^24.9.0",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "nodemailer": "^6.3.0",
-    "pg": "^7.12.0",
-    "sequelize": "^5.19.0",
-    "sequelize-cli": "^5.5.0",
-    "subscriptions-transport-ws": "^0.9.16"
-  }
+	"name": "y",
+	"version": "1.0.0",
+	"description": "slack clone with Graqphql and react",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon --exec babel-node src/index.js",
+		"start": "babel-node src/index.js",
+		"migrate": "sequelize db:migrate",
+		"create": "sequelize db:create",
+		"drop": "sequelize db:drop",
+		"clean:db": "sequelize db:migrate:undo:all",
+		"migrate:refresh": "babel-node src/db/migrate_refresh.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/EfeAgare/slack-clone-server.git"
+	},
+	"author": "Efe",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/EfeAgare/slack-clone-server/issues"
+	},
+	"homepage": "https://github.com/EfeAgare/slack-clone-server#readme",
+	"devDependencies": {
+		"@babel/cli": "^7.5.5",
+		"@babel/core": "^7.5.5",
+		"@babel/node": "^7.5.5",
+		"@babel/preset-env": "^7.5.5",
+		"@babel/preset-stage-3": "^7.0.0",
+		"nodemon": "^1.19.1"
+	},
+	"dependencies": {
+		"@babel/register": "^7.5.5",
+		"apollo-server-express": "^2.8.1",
+		"axios": "^0.19.0",
+		"babel-jest": "^24.9.0",
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"cloudinary": "^1.15.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.0.0",
+		"express": "^4.17.1",
+		"graphql": "^14.4.2",
+		"graphql-iso-date": "^3.6.1",
+		"graphql-redis-subscriptions": "^2.1.1",
+		"jest": "^24.9.0",
+		"jsonwebtoken": "^8.5.1",
+		"lodash": "^4.17.15",
+		"nodemailer": "^6.3.0",
+		"pg": "^7.12.0",
+		"sequelize": "^5.19.0",
+		"sequelize-cli": "^5.5.0",
+		"subscriptions-transport-ws": "^0.9.16"
+	}
 }
