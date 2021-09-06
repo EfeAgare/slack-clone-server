@@ -9,17 +9,27 @@ services:
     # npm run dev
 
     #  This will successfully wait for Postgres to start.
-    command: bash -c 'while !< /dev/tcp/db/5432; do sleep 1; done; npm run migrate; npm run dev'
+    # command: ["./wait-for-it.sh", "db:5432", "--", "node", "index.js"]
+    command: bash -c 'while !< /dev/tcp/db/5432; do sleep 2; done; npm run create; npm run migrate:refresh; npm run build; npm start'
     volumes:
       - .:/slack-clone-server
     ports:
       - "8000:8000"
     depends_on:
+      - redis
       - db
     environment:
       DATABASE_URL_DEV: $DATABASE_URL_DEV
+      DATABASE_URL: $DATABASE_URL
+      REDIS_HOST: $REDIS_HOST
+      SECRET: efe
+      CLOUD_NAME: $CLOUD_NAME
+      API_KEY: $API_KEY
+      API_SECRET: $API_SECRET
+      NODEMAILER_USER: $NODEMAILER_USER
+      NODEMAILER_PASS: $NODEMAILER_PASS
     networks:
-      - default
+      - webnet
 
   db:
     image: postgres
@@ -29,10 +39,32 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: slack_database_development
+      POSTGRES_PASSWORD: 2010agare
     ports:
-    - "5434:5432"
+      - "5432:5432"
+    networks:
+      - webnet
+
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_HOST: $REDIS_HOST
+    networks:
+      - webnet
+  
+  # nginx:
+  #   image: nginx
+  #   volumes:
+  #     - ./templates:/etc/nginx/templates
+  #   ports:
+  #     - '8000:80'
+  #   depends_on: 
+  #     - web
+  #   networks:
+  #     - webnet
 
 networks:
-  default:
-    external:
-      name: slack-clone-client-real_default
+  webnet:

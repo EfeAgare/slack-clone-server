@@ -1,5 +1,5 @@
 import models from './models';
 
-models.sequelize.sync({force: true}).then(() => {
+models.sequelize.sync({}).then(() => {
   console.log(`database drop and refresh`)
 });
