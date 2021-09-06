@@ -4,7 +4,7 @@ import workSpace from './workSpace';
 import workspacemember from './workspacemember';
 import channel from './channel';
 import message from './message';
-import channelmembers from './channelMember';
+import channelmembers from './channelmember';
 import error from './error';
 import directmessage from './directMessage';
 
