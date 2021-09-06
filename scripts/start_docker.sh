@@ -6,5 +6,6 @@ sudo service docker start
 sudo usermod -a -G docker ec2-user
 
 sudo service docker start
-
+docker image prune
+source ~/env.sh
 docker-compose up -d

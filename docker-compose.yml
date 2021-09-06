@@ -10,7 +10,7 @@ services:
 
     #  This will successfully wait for Postgres to start.
     # command: ["./wait-for-it.sh", "db:5432", "--", "node", "index.js"]
-    command: bash -c 'while !< /dev/tcp/db/5432; do sleep 2; done; npm run create; npm run migrate:refresh; npm run build; npm start'
+    command: bash -c 'while !< /dev/tcp/db/5432; do sleep 2; done; npm run create; npm run migrate:refresh; npm start'
     volumes:
       - .:/slack-clone-server
     ports:
