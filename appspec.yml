@@ -16,17 +16,17 @@ permissions:
 
 hooks:
 
-  BeforeInstall:
-    - location: scripts/before_install.sh
-      timeout: 300
-      runas: root
+  # BeforeInstall:
+  #   - location: scripts/before_install.sh
+  #     timeout: 300
+  #     runas: root
   
-  AfterInstall:
-    - location: scripts/after_install.sh
-      timeout: 2000
-      runas: root
+  # ApplicationStop:
+  #   - location: ./scripts/kill_container.sh
+  #     timeout: 20
+  #     runas: root
 
   ApplicationStart:
-    - location: scripts/app_start.sh
+    - location: scripts/start_docker.sh
       timeout: 2000
       runas: root
