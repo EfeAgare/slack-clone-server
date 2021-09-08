@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:us-east-2:601160152322:task-definition/slone-clone-latest:2"
+        TaskDefinition: "arn:aws:ecs:us-east-2:601160152322:task-definition/first-run-task-definition:2"
         LoadBalancerInfo:
           ContainerName: "Slack-clone"
           ContainerPort: 8000
