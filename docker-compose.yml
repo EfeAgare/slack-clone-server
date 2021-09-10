@@ -1,18 +1,8 @@
 version: '3'
 services:
   web:
-    image: slack-clone-server
-    # while !</dev/tcp/db/5432
-    # do sleep 1
-    # done
-    #  npm run migrate
-    # npm run dev
-
-    #  This will successfully wait for Postgres to start.
-    # command: ["./wait-for-it.sh", "db:5432", "--", "node", "index.js"]
-    command: bash -c 'while !< /dev/tcp/db/5432; do sleep 2; done; npm run create; npm run migrate:refresh; npm start'
-    volumes:
-      - .:/slack-clone-server
+    image: 601160152322.dkr.ecr.us-east-2.amazonaws.com/slone-clone:latest 
+    command: bash -c 'npm run create; npm run migrate:refresh; npm start'
     ports:
       - "8000:8000"
     depends_on:
@@ -28,22 +18,34 @@ services:
       API_SECRET: $API_SECRET
       NODEMAILER_USER: $NODEMAILER_USER
       NODEMAILER_PASS: $NODEMAILER_PASS
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: /ecs/slone-clone-latest
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: ecs
     networks:
-      - webnet
+      - bridge
 
   db:
     image: postgres
     restart: always
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - /var/lib/postgresql/data
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_DB: $POSTGRES_DB
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     ports:
       - "5432:5432"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: /ecs/slone-clone-latest
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: ecs
     networks:
-      - webnet
+      - bridge
 
   redis:
     image: redis
@@ -51,22 +53,17 @@ services:
     ports:
       - "6379:6379"
     environment:
-      REDIS_HOST: $REDIS_HOST
+      REDIS_HOST: "127.0.0.1"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: /ecs/slone-clone-latest
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: ecs
     networks:
-      - webnet
-  
-  # nginx:
-  #   image: nginx
-  #   volumes:
-  #     - ./templates:/etc/nginx/templates
-  #   ports:
-  #     - '8000:80'
-  #   depends_on: 
-  #     - web
-  #   networks:
-  #     - webnet
+      - bridge
 
 networks:
-  webnet:
+  bridge:
 
   
