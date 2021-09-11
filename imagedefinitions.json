@@ -1,6 +1,6 @@
 [
 	{
-		"name": "slone-clone-latest",
+		"name": "web",
 		"imageUri": "601160152322.dkr.ecr.us-east-2.amazonaws.com/slone-clone:latest"
 	}
 ]
