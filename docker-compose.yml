@@ -53,7 +53,7 @@ services:
     ports:
       - "6379:6379"
     environment:
-      REDIS_HOST: "127.0.0.1"
+      REDIS_HOST: $REDIS_HOST
     logging:
       driver: awslogs
       options: 
